@@ -45,3 +45,52 @@ print(df["price"].describe())
 # Count invalid prices (zero or negative)
 print("\n========== INVALID PRICES ==========")
 print("Zero or negative prices:", (df["price"] <= 0).sum())
+
+# ==========================================
+# STEP 2: DATA CLEANING
+# ==========================================
+
+# Check duplicate rows
+print("\n========== DUPLICATE RECORDS ==========")
+
+duplicate_count = df.duplicated().sum()
+
+print("Number of duplicate rows:", duplicate_count)
+
+# Check invalid prices
+print("\n========== INVALID PRICE RECORDS ==========")
+
+invalid_prices = df[df["price"] <= 0]
+
+print("Invalid price records:", len(invalid_prices))
+
+# Display a few invalid records
+print(invalid_prices[["price", "city", "statezip", "sqft_living"]].head(10))
+
+
+# Remove records with zero or negative prices
+df_clean = df[df["price"] > 0].copy()
+
+print("\n========== AFTER REMOVING INVALID PRICES ==========")
+
+print("Original number of rows:", len(df))
+print("Rows after removing invalid prices:", len(df_clean))
+
+# Remove duplicate records
+df_clean = df_clean.drop_duplicates()
+
+print("\n========== FINAL CLEANED DATASET ==========")
+
+print("Rows after cleaning:", len(df_clean))
+print("Columns:", len(df_clean.columns))
+
+# Check whether invalid prices remain
+print("Invalid prices remaining:", (df_clean["price"] <= 0).sum())
+
+# Check whether duplicates remain
+print("Duplicate rows remaining:", df_clean.duplicated().sum())
+
+# Save the cleaned dataset
+df_clean.to_csv("results/cleaned_house_data.csv", index=False)
+
+print("\nCleaned dataset saved successfully!")
