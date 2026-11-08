@@ -94,3 +94,70 @@ print("Duplicate rows remaining:", df_clean.duplicated().sum())
 df_clean.to_csv("results/cleaned_house_data.csv", index=False)
 
 print("\nCleaned dataset saved successfully!")
+
+
+# ==========================================
+# STEP 3: SELECT INPUT FEATURES AND TARGET
+# ==========================================
+
+# Select the input columns that the model will use
+feature_columns = [
+    "bedrooms",
+    "bathrooms",
+    "sqft_living",
+    "sqft_lot",
+    "floors",
+    "waterfront",
+    "view",
+    "condition",
+    "sqft_above",
+    "sqft_basement",
+    "yr_built",
+    "yr_renovated",
+    "city",
+    "statezip"
+]
+
+# Select the target column
+target_column = "price"
+
+# Create X (input features)
+X = df_clean[feature_columns].copy()
+
+# Create y (target variable)
+y = df_clean[target_column].copy()
+
+
+# Separate numerical and categorical features
+categorical_features = ["city", "statezip"]
+
+numeric_features = [
+    column for column in feature_columns
+    if column not in categorical_features
+]
+
+
+# Display the results
+print("\n========== FEATURE SELECTION ==========")
+
+print("Input features (X):")
+print(feature_columns)
+
+print("\nTarget variable (y):")
+print(target_column)
+
+print("\n========== FEATURE TYPES ==========")
+
+print("Numerical features:", numeric_features)
+print("Categorical features:", categorical_features)
+
+print("\n========== INPUT DATA ==========")
+
+print("X shape:", X.shape)
+print("y shape:", y.shape)
+
+print("\nFirst five input records:")
+print(X.head())
+
+print("\nFirst five target values:")
+print(y.head())
