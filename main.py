@@ -7,6 +7,9 @@
 # Import the Pandas library
 import pandas as pd
 
+# To split the dataset into training and testing sets
+from sklearn.model_selection import train_test_split
+
 # Location of our dataset
 DATA_PATH = "data/modified_data.csv"
 
@@ -161,3 +164,28 @@ print(X.head())
 
 print("\nFirst five target values:")
 print(y.head())
+
+
+# ==========================================
+# STEP 4: SPLITTING THE DATASET
+# ==========================================
+
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.2,
+    random_state=42
+)
+
+# Display the sizes of the datasets
+print("\n========== DATASET SPLITTING ==========")
+
+print("Original input data:", X.shape)
+print("Original target data:", y.shape)
+
+print("\nTraining input data:", X_train.shape)
+print("Testing input data:", X_test.shape)
+
+print("\nTraining target data:", y_train.shape)
+print("Testing target data:", y_test.shape)
