@@ -10,6 +10,10 @@ import pandas as pd
 # To split the dataset into training and testing sets
 from sklearn.model_selection import train_test_split
 
+# To preprocess the categorical features
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import OneHotEncoder
+
 # Location of our dataset
 DATA_PATH = "data/modified_data.csv"
 
@@ -189,3 +193,34 @@ print("Testing input data:", X_test.shape)
 
 print("\nTraining target data:", y_train.shape)
 print("Testing target data:", y_test.shape)
+
+# STEP 8: DATA PREPROCESSING
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ("numeric", "passthrough", numeric_features),
+
+        ("categorical", OneHotEncoder(
+            handle_unknown="ignore",
+            sparse_output=False
+        ), categorical_features)
+    ]
+)
+
+# Learn the transformations using training data
+X_train_processed = preprocessor.fit_transform(X_train)
+
+# Apply the same transformations to testing data
+X_test_processed = preprocessor.transform(X_test)
+
+
+print("\n========== DATA PREPROCESSING ==========")
+
+print("Original training shape:", X_train.shape)
+print("Processed training shape:", X_train_processed.shape)
+
+print("\nOriginal testing shape:", X_test.shape)
+print("Processed testing shape:", X_test_processed.shape)
+
+print("\nFirst 25 processed feature names:")
+print(preprocessor.get_feature_names_out()[:25])
